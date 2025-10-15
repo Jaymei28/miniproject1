@@ -1,22 +1,22 @@
 from django.shortcuts import render
-from students.models import Student
-from ..serializers import StudentSerializer
+from employees.models import Employee
+from ..serializers import EmployeeSerializer
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.decorators import api_view
 
 @api_view(['GET', 'POST'])
-def StudentsList(request):
+def EmployeesList(request):
 
 
     if request.method == 'GET':
-        students = Student.objects.all()
-        serialize = StudentSerializer (students, many=True)
+        Employees = Employee.objects.all()
+        serialize = EmployeeSerializer (Employees, many=True)
         return Response(serialize.data, status=status.HTTP_200_OK)
     
 
     if request.method == 'POST':
-        serializer = StudentSerializer(data=request.data)
+        serializer = EmployeeSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
@@ -25,20 +25,20 @@ def StudentsList(request):
     
 
 @api_view(['GET', 'PUT', 'DELETE'])
-def student(request, student_id):
+def employee(request, employee_id):
     try:
-        student = Student.objects.get(pk=student_id)
-    except Student.DoesNotExist:
+        employee = Employee.objects.get(pk=employee_id)
+    except Employee.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
     
 
     if request.method == 'GET':
-        serializer = StudentSerializer(student)
+        serializer = EmployeeSerializer(employee)
         return Response(serializer.data, status=status.HTTP_200_OK)
     
 
     elif request.method == 'PUT':
-        serializer = StudentSerializer(student, data=request.data)
+        serializer = EmployeeSerializer(employee, data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_200_OK)
@@ -47,5 +47,5 @@ def student(request, student_id):
         
 
     elif request.method == 'DELETE':
-        student.delete()
+        employee.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)

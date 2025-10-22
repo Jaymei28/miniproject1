@@ -9,10 +9,10 @@ class Students(
     generics.GenericAPIView):                   
 
     queryset = Student.objects.all()
-    serializer_class = StudentSerializer             
+    serializer_class = StudentSerializer            
 
     def get(self, request):
-        return self.list(request)                
+        return self.list(request)               
     
     def post(self, request):
         return self.create(request)             

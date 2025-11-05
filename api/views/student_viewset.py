@@ -6,8 +6,8 @@ from api.serializers import StudentSerializer
 
 class Students(viewsets.ViewSet):
     def list(self, request):                                               
-        queryset = Student.objects.all()                                   
-            
+        queryset = Student.objects.all()    
+        serializer = StudentSerializer(queryset, many=True)                               
         return Response(serializer.data)
 
 
@@ -18,11 +18,13 @@ class Students(viewsets.ViewSet):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors)
     
+
     def retrieve(self, request, pk=None):
         student = get_object_or_404(Student, pk=pk)
         serializer = StudentSerializer(student)
         return Response(serializer.data, status=status.HTTP_200_OK)
     
+
     def update(self, request, pk=None):
         student = get_object_or_404(Student, pk=pk)
         serializer = StudentSerializer(student, data=request.data)
@@ -30,6 +32,7 @@ class Students(viewsets.ViewSet):
             serializer.save()
             return Response(serializer.data)
         return Response(serializer.errors)
+    
     
     def delete(self, request, pk=None):
         student = get_object_or_404(Student, pk=pk)

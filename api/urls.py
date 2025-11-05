@@ -10,6 +10,7 @@ from api.views import employee_generic
 from api.views import student_generic
 from api.views import employee_viewset
 from api.views import student_viewset
+from api.views import blogs_view
 
 
 router = DefaultRouter()
@@ -39,7 +40,13 @@ urlpatterns = [
 
     path('generic_students/', student_generic.Students.as_view()),
     path('generic_student_detail/<int:pk>/', student_generic.StudentDetail.as_view()),
+    path('',include(router.urls)),
 
-    path('',include(router.urls))
+    path('blogs/', blogs_view.BlogsView.as_view()),
+    path('comments/', blogs_view.CommentsView.as_view()),
 
+    path('blogs/<int:pk>', blogs_view.BlogDetailView.as_view()),
+    path('comments/<int:pk>', blogs_view.CommentDetailView.as_view())
+
+    
 ]
